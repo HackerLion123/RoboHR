@@ -1,0 +1,180 @@
+
+
+body{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+	margin: 0px;
+}
+
+
+
+header{
+	margin: 0px;
+	background-image: url(../images/4.jpg);
+	background-size: cover;
+	background-position: center;
+	height:120vh;
+	color:white;
+	/*background-color: #7db085;*/        /* #7db085 #3984b0 #3d8ccc #45a8c9  #f09023 #ebad55; #69946f */      
+}
+
+.title{
+	position: absolute;
+	top: 50%;
+	bottom: 50%;
+	transform: translate(100%,-50%);
+}
+
+.button{
+	position: absolute;
+	display: flex;
+	top: 50%;
+	bottom: 50%;
+	transform: translate(150%,-50%);
+}
+
+.header h1{
+	transform: translate(-50%,-50%);
+}
+
+.button button{
+	padding:5px 25px;
+}
+
+.btn{
+	height:18px;
+	width:60px;
+	font-size: 18px;
+	background:#E2472F; 
+	color:white;
+	border: 1 solid black;
+	border-radius:5px;
+	padding: 10px;
+}
+
+.btn1{
+	height:18px;
+	width:60px;
+	font-size: 18px;
+	background-color: white;
+	color:black;
+	border: 1 solid black;
+	border-radius:2px;
+	padding: 5px;
+}
+
+
+.indexcard{
+	background-color: ;
+
+}
+
+.indexcard img{
+
+	width:40%;
+	height: 400px;
+
+}
+
+.indexcard h1{
+	font-size: 22px;
+}
+
+.indexcard p{
+
+}
+
+
+nav{
+	position: fixed;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 80px;
+	box-sizing: border-box;
+}
+
+nav.black{
+	background-color: black;
+	height:100px;
+}
+
+nav .logo{
+	padding: 22px 20px;
+	height: 80px;
+	color: white;
+	float: left;
+}
+
+nav .logo h1{
+	font-weight: 700px;
+	font-size: 22px;
+	padding: 3px;
+	border:2px solid white;
+}
+
+
+nav ul{
+	float: right;
+	list-style: none;
+	display: flex;
+}
+
+nav ul li{
+	list-style: none;	
+}
+
+nav ul li a{
+	text-decoration: none;
+	padding: 10px 20px;
+	font-weight: 400px;
+	color: white;
+	transition: 0.3s;
+	opacity: 0.8;
+}
+
+nav ul li a:hover{
+	opacity: 1;
+	font-weight: 600px;
+	font-size: 17px;
+	color: white;
+	transition: scale(1.2);
+}
+.footer{
+}
+
+.left{
+	text-align:left;
+}
+
+
+.mainblock{
+}
+
+
+
+nav.black{
+	background-color: black;
+}
+
+
+.final{
+	background-color: black;
+	color:white;
+}
+
+
+
+.center{
+	text-align: center;
+}
+
+.powered{
+	box-shadow:0 0.2 1px black;
+	margin:5px;
+	padding:15px 10px;
+}
+.powered img{
+	width:30%;
+	height: 150px;
+}

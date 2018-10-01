@@ -1,0 +1,45 @@
+{% extends "html/template.html" %}
+
+{% block content %}
+
+<link href="../style.css" rel="stylesheet">
+<div class="cam">
+	<video autoplay="true" id="camElement">
+	</video>
+  <div class="modelwrap">
+    <img src="">
+    <div class="btn">Start</div>
+  </div>
+</div>
+<p style="text-align: center;">Note: signup to detect your face and create a report.</p>
+  <script>
+
+    let snaps = []
+    let video = document.querySelector('#cam video');
+    const img = document.querySelector('#cam #modelwrap img')
+
+    const start = document.querySelector('#cam #modelwrap div')
+
+    if (navigator.mediaDevices.getUserMedia) {       
+        navigator.mediaDevices.getUserMedia({video: true})
+        .then(function(stream) {
+          video.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.log("Something went wrong!");
+        });
+    }
+
+    start.onclick = function(){
+      while(true){
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        img.src = canvas.toDataURL('image/webp')
+      }
+    };
+
+  
+  </script>
+
+{% endblock %}
