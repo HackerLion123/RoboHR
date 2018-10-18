@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
+</head>
+<body>
+	<header>
+		<div class="logo">
+			<h1>ROBO HR</h1>
+		</div>
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/cam/">Cam</a></li>
+			<li><a href="/bot/">Ruby</a></li>
+			<li><a href="/dashboard/">Report</a></li>
+			<li><a href="/about/">About</a></li>
+		</ul>
+		{% if logged_in %}
+		<div class="dropdown">
+			<button class="dropbtn" style="color:black;" id="but" onclick="menu()" >
+			{{user}}
+			</button>
+			<div class="dropdown-content" id="dropdown">
+				<a href="/profile/">Profile</a>
+				<a href="/logout/">Logout</a>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function menu(){
+				document.getElementById("dropdown").classList.toggle("show");
+			}
+
+			document.onclick = function(e) {
+				console.log(e);
+			  if (!e.target.matches('#but')) {
+			  	console.log(e);
+			  	console.log(e.target.matches('#but'));
+			    let dropdowns = document.getElementsByClassName("dropdown-content");
+			    let i;
+			    for (i = 0; i < dropdowns.length; i++) {
+			      let openDropdown = dropdowns[i];
+			      if (openDropdown.classList.contains('show')) {
+			        openDropdown.classList.remove('show');
+			      }
+			    }
+			  }
+			} 
+		</script>
+		{% endif %}
+
+	</header>
+	<div class="mainwrapper">
+	{% block content %}
+	{% endblock %}
+	</div>
+	<footer>
+		<div class="center">&copy; All rights reserved </div>
+		<div class="right">Contact -  9952188901</div>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% extends "html/template.html" %}
+
+{% block content %}
+
+<link href="../style.css" rel="stylesheet">
+<div class="cam">
+	<video autoplay="true" id="camElement">
+	</video>
+  <div class="modelwrap">
+        <img src={{src}}>
+        <p>{{name}} - {{emotion}}</p>
+    <form method="post" action="/upload/">
+        {% csrf_token %}
+        <input id="img" type="text" name="base64" hidden>
+        <button type="submit" class="btn">Start</button>
+    </form>
+  </div>
+</div>
+<p style="text-align: center;">Note: signup to detect your face and create a report.</p>
+  <script>
+    let video = document.querySelector('video');
+    console.log(video);
+    /*video.addEventListener()*/
+    const img = document.querySelector('.modelwrap img');
+    console.log(img);
+    const start = document.querySelector('.btn');
+    const canvas = document.createElement('canvas');
+    const input = document.querySelector('#img');    
+
+    console.log(input);
+
+    if (navigator.mediaDevices.getUserMedia) {       
+        navigator.mediaDevices.getUserMedia({video: true})
+        .then(function(stream) {
+          video.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.log("Something went wrong!");
+        });
+    }
+
+    /*navigator.mediaDevices.getUserMedia({video: true}).
+    then(handleSuccess).catch(handleError);*/
+    start.onclick = function(){
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        /*let reader = new FileReader();
+        reader.onload = function(e) {
+          img.src = reader.result;
+        }*/
+
+        img.src = canvas.toDataURL('image/png');
+        input.value = img.src
+        /*reader.readAsDataURL(data);*/
+        //upload(img.src);
+    };
+
+    function upload(file){
+        /*let gb_endpoint = this_.attr("data-href")*/
+        /*$.ajax({
+           type: "POST",
+           url: gb_endpoint,
+           data:{
+            JSON.stringify("imgBase64":file)
+           }
+        });*/
+    }
+  </script>
+
+{% endblock %}

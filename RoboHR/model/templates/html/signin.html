@@ -1,0 +1,54 @@
+{% extends "html/template.html" %}
+
+{% block content %}
+
+<div class="elements">
+	<div class="tab">
+		<button class="tablinks" onclick="openTeam(event,'signup')">SignUp</button>
+		<button  class="tablinks active" onclick="openTeam(event,'login')">Login</button>
+	</div>
+
+	<div id="signup" class="tabcontent">
+		
+		<form class="signup" action="/adduser/" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="text" name="username" placeholder="Username" />
+		    <input type="text" name="email" placeholder="E-mail" />
+		    <input type="password" name="password" placeholder="Password" />
+		    <input type="password" name="again_pass" placeholder="Retype password" />
+		    <input name="pro_pic" type="file" ><br/>
+		    <input type="submit" name="signup_submit" value="Sign me up" />
+		</form>
+
+	</div>
+
+	<div  id="login" class="tabcontent" style="display: block;">
+		<form class="login" method="post" action="/login/">
+			{% csrf_token %}
+			<label for="username">User Name:  </label>
+			<input id="user" type="text" name="user"/><br/>
+			<label for="passord">Password:  </label>
+			<input id="password" type="password" name="password"/><br/>
+			<input type="submit" name="signup_submit" value="Login" />
+			<p><a href="#">forget password?</a></p>
+		</form>
+	</div>
+	<p  style="color: red">{{message}}</p>
+</div>
+
+<script>
+	function openTeam(evt, teamName) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+		document.getElementById(teamName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
+</script>
+{% endblock %}

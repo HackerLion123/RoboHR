@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{title}}</title>
+	<link rel="shortcut icon" type="icon" href="images/logo2.png">
+	<script type="text/javascript" src="../../static/js/jquery.js"></script>
+	<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+	<link href="../../static/css/style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="logo">
+				{% if logged_in %}
+					<div class="dropdown">
+						<button class="dropbtn" onclick="menu()" >
+						{{user}}
+						</button>
+						<div class="dropdown-content" id="dropdown">
+							<a href="/profile/">Profile</a>
+							<a href="/logout/">Logout</a>
+						</div>
+					</div>
+					<script type="text/javascript">
+						function menu(){
+							document.getElementById("dropdown").classList.toggle("show");
+						}
+					</script>
+				{% else %}
+					Welcome
+				{% endif %}
+			</div>
+			<ul>
+				<li><a href="">Home</a></li>
+				<li><a href="cam/">Cam</a></li>
+				<li><a href="bot/">Ruby</a></li>
+				<li><a href="dashboard/">Report</a></li>
+				<li><a href="about/">About</a></li>
+			</ul>
+		</nav>
+		<h1 class="title">Get Started with RoboHR</h1>
+		<div class="button">
+			<a href="/signup" class="btn">Sign Up</a>
+			<a href="#learn" class="btn1">Learn More</a>
+		</div>
+	</header>
+	<div class="mainblock">
+		<div class="manual" id="learn">
+			<p>This page is to show case demo version of robo HR a powerful HR application that can be used by big corporates, large companies and education sectors like schools and colleges.</p>
+			<h2>Introduction</h2>
+			<p>
+				RoboHR is a managment tool that helps to monitor emoitions of a organization. It also keeps the organization secure by keeping of intruders. It also comes with the basic analytics option. It is a well suited HR tool that can be used in corporates and eductaional institutions.
+			</p>
+			<h2>Usage</h2>
+			<p>
+				The usage of this application is pretty simple and anybody can use this app.First, we need to properly setup the application.
+			</p>
+			<section><p>Hello</p></section>
+			<h2>Ruby Bot</h2>
+			<p>
+				Ruby is 'Elisa' of our time. A Intelligent bot that learns as you talk to it. A consulor chatbot that can be interacted with both voice or with text. It will help the employees lightten up their mind or to speak about their greviances. Ruby can identify significant pieces of information from a conversation and can use it up in later interaction with the persons. It also uses the analytics information to speak to a employee. It can be also used to talk to clients and customers.
+			</p>
+			<h2>Admin Dashboard</h2>
+			<p>
+				
+			</p>
+			<h2>This Demo</h2>
+			<video width="380" height="250" controls>
+				<source src="../../static/output.avi" type="video/webm"/>
+				Your Browser does not support this video.
+			</video>
+			<p>
+				This demo version uses live webcam images to demonstrate how our application work. A user can upload their own photo or they can use the web cam to take one when they login for first time then the model will predict their mood along with their name.
+			</p>
+			<h2>Conclusion</h2>
+			<p>
+				The Project is aimed to reduce stress and improve the productivity of employees in a organization leading to much profit to both the company and workers. In education sector it can be used to find out what suits the students so that they can easily understand the subjects.
+			</p>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="center">Powered By</div>
+		<div class="powered">
+			<img src="../../static/images/imges.png"/>
+			<img src="../../static/images/2.png"/>
+			<img src="../../static/images/3.png"/>
+		</div>
+		<div class="final">
+			<div class="center">&copy;All Rights Reserved</div>
+		</div>
+	</div>
+	<script>
+		$(window).on('scroll',function(e){
+			if ($(window).scrollTop()> 200) {
+				$('nav').addClass('black');
+			}
+			else{
+				$('nav').removeClass('black');
+			}
+		});
+	</script>
+</body>
+</html>

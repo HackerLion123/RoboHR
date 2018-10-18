@@ -1,0 +1,21 @@
+{% extends "html/template.html" %}
+
+{% block content %}
+{% if file %}
+<div class="wrap">
+	<h2>Emotion</h2>
+	<img src="{{ bar }}">
+</div>
+
+<div class="wrap">
+	<h2>Performance</h2>
+	<img src={{ graph }}>
+</div>
+
+<div class="trait">
+	<h3>Traits identified</h3>
+</div>
+{% else %}
+<h1 style="text-decoration: none;">You Don't have a report, yet!!!</h1>
+{% endif %}
+{% endblock %}
