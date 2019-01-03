@@ -7,7 +7,7 @@ import tensorflow as tf
 import numpy as np
 
 from keras.models import Model, Sequential
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.layers import Conv2D, MaxPool2D, Flatten, Dense, Input, Lambda, Dropout
 from keras.optimizers import Adam, SGD, RMSprop
 from keras.preprocessing.image import img_to_array,array_to_img,ImageDataGenerator,load_img
@@ -58,17 +58,18 @@ class SiameseNet(object):
 		self.model_path = 'models/oneshot/'
 		self.epochs = 20
 		self.labels = None
-		self.threshold = 0.4
+		self.threshold = 0.5
 		self.input_shape = None
 		self.vgg16_model = None
 		self.vgggraph = None
 		self.database = None
-		self.graph = None
+		self.graph = tf.get_default_graph()
 
 	def load_model(self,model_path = None):
 		if model_path is None:
 			model_path = self.model_path
-		path = os.path.join("/root/Documents/Robo HR",model_path)
+		# path = os.path.join("/root/Documents/Robo HR",model_path)
+		path = os.getcwd()
 		self.config = np.load(os.path.join(path,'config.npy')).item()
 		self.database = np.load(os.path.join(path,'database.npy')).item()
 		self.labels = self.config['labels']
@@ -76,7 +77,7 @@ class SiameseNet(object):
 
 		self.vgg16_model = self.create_vgg16_model()
 		self.model = self.create_network(shape=self.input_shape)
-		self.model.load_weights(os.path.join(path,'weights.h5'))
+		self.model.load_weights(os.path.join(path,'weight.h5'))
 		self.graph = tf.get_default_graph()
 
 	def img_to_encoding(self,path):
@@ -120,7 +121,7 @@ class SiameseNet(object):
 			when top=True
 		"""
 		model = VGG16(include_top=True,weights='imagenet')
-		model.compile(optimizer=SGD(), loss='categorical_crossentropy', metrics=['accuracy'])
+		model.compile(optimizer=SGD(lr=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 		return model
 
@@ -149,7 +150,7 @@ class SiameseNet(object):
 
 		model = Model([input_a, input_b], distance)
 
-		rms = RMSprop(lr=0.001)
+		rms = RMSprop(lr=0.002)
 
 		model.compile(loss=contrastive_loss, optimizer = rms, metrics=[self.accuracy])
 
@@ -157,7 +158,7 @@ class SiameseNet(object):
 
 		return model
 
-	def create_model_encodings(self,dir,augment=True):
+	def create_model_encodings(self,dir,augment=True,save_encodings=False):
 		database = {}
 		current_dir = os.getcwd()
 		dir = os.path.join(current_dir,dir)
@@ -171,7 +172,6 @@ class SiameseNet(object):
 					rescale = 1./255,
 					shear_range = 0.2,
 					zoom_range = 0.2,
-					validation_split=0.2,
 					width_shift_range=0.1,
 					height_shift_range=0.1,
 					horizontal_flip=True,
@@ -203,7 +203,8 @@ class SiameseNet(object):
 				database[file].append(self.img_to_encoding(e))
 
 		os.chdir(current_dir)
-		np.save('database.npy',database)
+		if save_encodings:
+			np.save('database.npy',database)
 		return database
 
 
@@ -238,7 +239,8 @@ class SiameseNet(object):
 
 		np.save('config.npy',self.config)
 
-		checkpoint = ModelCheckpoint('weights.h5')
+		checkpoint = ModelCheckpoint('weights.h5',monitor='val_accuracy', verbose=1, save_best_only=True, save_weights_only=True)
+		reducelr = ReduceLROnPlateau(monitor='val_loss',factor=0.5,verbose=1,paitence=100,min_lr=0.00001)
 
 		t_x, t_y = self.create_pairs(database, names)
 		print(t_x.shape)
@@ -248,9 +250,9 @@ class SiameseNet(object):
 			epochs=self.epochs,
 			validation_split=0.2,
 			verbose=1,
-			callbacks=[checkpoint]
+			callbacks=[checkpoint,reducelr]
 		)
-		self.model.save_weights("weights.h5")
+		self.model.save_weights("weight.h5")
 
 
 	def accuracy(self, y_true, y_pred):
@@ -265,7 +267,7 @@ class SiameseNet(object):
 			names.append(name)
 			labels[name] = len(labels)
 		t_x, t_y = self.create_pairs(test, names)
-		print("hello")
+		#print("hello")
 		print(self.model.evaluate([t_x[:,0],t_x[:,1]],t_y,verbose=1))
 
 	def predict(self,img_path, dataset=None):
@@ -300,12 +302,15 @@ class SiameseNet(object):
 def main():
 	model = SiameseNet()
 	
-	database = model.create_model_encodings(os.path.join(os.getcwd(),'dataset/'))
-	model.fit(database=np.load('database.npy').item(),epochs=1000)
+	# database = model.create_model_encodings(os.path.join(os.getcwd(),'dataset/'),save_encodings=True)
+	model.fit(database=np.load('database.npy').item(),epochs=9000)
 	model.load_model()
 	
 	print(model.predict('file15.jpg'))
-	model.evalute("","")
+	# print(model.predict('file1.jpg'))
+	print(model.predict('sam3.jpeg2.jpg'))
+	# print(model.predict('17.jpeg'))
+	print(model.evalute("",""))
 
 
 

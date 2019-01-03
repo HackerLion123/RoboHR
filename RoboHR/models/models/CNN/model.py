@@ -3,6 +3,7 @@ import os
 import tensorflow as tf
 from keras.optimizers import Adam, SGD
 from keras.utils import plot_model
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.models import Sequential, Model, model_from_json
 from keras.layers import Dense, Conv2D, MaxPooling2D, GlobalAveragePooling2D, Dropout, Flatten, Input
 from keras.applications.inception_v3 import InceptionV3, preprocess_input, decode_predictions
@@ -47,6 +48,7 @@ class EmotionNet(object):
 
 		for layer in base_model.layers:
 			layer.trainable = False
+
 
 		model.compile(loss = 'categorical_crossentropy',optimizer="rmsprop",metrics=['accuracy'])
 
